@@ -17,7 +17,8 @@ public class ClientManager {
 
   private int port, maxConnections;
   private ArrayList<Listener> clientList;
-  MessageHandler handler;
+  private MessageHandler handler;
+  //TODO: Need some sort of structure for storing the threads
   
   //Constructor
   public ClientManager(int p, int mc, MessageHandler mh) {
@@ -40,7 +41,7 @@ public class ClientManager {
 
 	  System.out.println("Accepting connections");
 	  
-      while((i++ < maxConnections) || (maxConnections == 0)){
+      while((i < maxConnections) || (maxConnections == 0)){
       
         server = ioSock.accept();
         System.out.println("Accepted a new client");
@@ -49,6 +50,7 @@ public class ClientManager {
         Thread t = new Thread(conn_c);
         t.start();
         
+        i++;
       }
     } catch (IOException ioe) {
       System.out.println("IOException on socket listen: " + ioe);

@@ -6,7 +6,6 @@ import java.security.*;
 class Listener implements Runnable {
 	public int clientID;
     private Socket server;
-    private String line,input;
     private MessageHandler ourMessageHandler;
     private boolean open;
 
@@ -23,7 +22,11 @@ class Listener implements Runnable {
       try {
         // Set up the streams for reading/writing. You guys might review if it's been a while
         ObjectInputStream objIn = new ObjectInputStream(server.getInputStream() );
-        PrintStream out = new PrintStream(server.getOutputStream());
+        ObjectOutputStream objOut = new ObjectOutputStream(server.getOutputStream());
+        
+        Message initial = new RegistrationMessage(clientID);
+        
+        objOut.writeObject(initial);
 		
 		while(open){
 

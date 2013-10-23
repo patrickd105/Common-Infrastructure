@@ -12,8 +12,6 @@ public class Message implements Serializable  {
 		clientID = c;
 		
 	}
-	
-	
 
 
 }
