@@ -17,6 +17,7 @@ public class ClientManager {
 
   private int port, maxConnections;
   private ArrayList<Listener> clientList;
+  private ArrayList<Thread> threadList;
   private MessageHandler handler;
   //TODO: Need some sort of structure for storing the threads
   
@@ -25,15 +26,27 @@ public class ClientManager {
   	port = p;
   	maxConnections = mc;
   	clientList = new ArrayList<Listener>();
+	threadList = new ArrayList<Thread>();
   	handler = mh;
   }
   	
-  
+  public void stopThread(int id) {
+  	try{
+  		System.out.println("Attempting to stop thread " + id);
+  		clientList.get(id).close();
+  		//threadList.get(id).sleep(300);
+		threadList.get(id).join();
+	}
+	catch(InterruptedException e)
+	{
+		System.out.println("stopThread error: "+ e);
+	}
+  }
   
   
   // Listen for incoming connections and handle them
   public void acceptConnections() {
-    int i=0;
+    int currentClientNum=0;
 
     try{
       ServerSocket ioSock = new ServerSocket(port);
@@ -41,16 +54,16 @@ public class ClientManager {
 
 	  System.out.println("Accepting connections");
 	  
-      while((i < maxConnections) || (maxConnections == 0)){
+      while((currentClientNum < maxConnections) || (maxConnections == 0)){
       
         server = ioSock.accept();
         System.out.println("Accepted a new client");
-        Listener conn_c= new Listener(server, i, handler);
+        Listener conn_c= new Listener(server, currentClientNum, handler);
         clientList.add(conn_c);
         Thread t = new Thread(conn_c);
         t.start();
-        
-        i++;
+        threadList.add(t);
+        currentClientNum++;
       }
     } catch (IOException ioe) {
       System.out.println("IOException on socket listen: " + ioe);

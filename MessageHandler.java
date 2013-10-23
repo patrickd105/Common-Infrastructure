@@ -9,11 +9,22 @@ public class MessageHandler implements Runnable {
 	private boolean cont;
 	
 	//We'll have to give it references to whichever parts it needs to communicate with
+	private ClientManager cm;
+	
+	
+	
+	
+	
 	public MessageHandler ( ) {
 		messages = new ArrayBlockingQueue<Message> (messageCapacity);
 		cont = true;
 		
 	}
+	
+	public void setCM(ClientManager cm){
+		this.cm = cm;
+	}
+	
 	
 	//The part that actually needs to just be in a thread is the loop that checks for messages
 	public void run() {
@@ -70,7 +81,8 @@ public class MessageHandler implements Runnable {
 				System.out.println("Client " + m.clientID + " sent audio data");
 				break;
 			case 4:
-				System.out.println("Client " + m.clientID + "has unregistered");
+				System.out.println("Client " + m.clientID + " has unregistered");
+				cm.stopThread(m.clientID);
 				break;
 			default:
 				System.out.println("Message ID does not match a known type.");

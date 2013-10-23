@@ -35,6 +35,9 @@ public class TestClient {
 				case 1:
 					outMessage = new VideoMessage(currentID);
 					break;
+				case 3:
+					outMessage = new DeregisterMessage(currentID);
+					break;
 				default:
 					System.out.println("not an option");
 			
@@ -42,7 +45,16 @@ public class TestClient {
 			
 			if(outMessage != null) objOut.writeObject(outMessage);
 			
-		};		 
+			
+		};
+		
+		Message closeConfirm = (Message) objIn.readObject();
+		if(  ((ConfirmationMessage) closeConfirm).confirmedMessageType == 4)
+			System.out.println("Exit confirmed");
+		else
+			System.out.println("Exit hosed up");
+			
+		s.close();		 
 
 	}
 
