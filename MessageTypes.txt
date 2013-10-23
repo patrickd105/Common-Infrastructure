@@ -1,6 +1,0 @@
-0 = Registration
-1 = Audio data
-2 = Video data
-3 = 
-4 = Deregistration
-5 = Confirmation
