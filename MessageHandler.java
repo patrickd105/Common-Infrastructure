@@ -7,6 +7,7 @@ public class MessageHandler implements Runnable {
 	private static int messageCapacity = 200;
 	public int numMessages = 0;
 	private boolean cont;
+   private Report report;
 	
 	//We'll have to give it references to whichever parts it needs to communicate with
 	private ClientManager cm;
@@ -15,9 +16,10 @@ public class MessageHandler implements Runnable {
 	
 	
 	
-	public MessageHandler ( ) {
+	public MessageHandler (Report r) {
 		messages = new ArrayBlockingQueue<Message> (messageCapacity);
 		cont = true;
+      report = r;
 		
 	}
 	
@@ -71,21 +73,21 @@ public class MessageHandler implements Runnable {
 	
 		switch(m.typeID) {
 			case 1:
-				System.out.println("Client registered with id: " + m.clientID);
-				break;
+				this.report.newLogin(m.clientID);
+            break;
 			case 2:
-				System.out.println("Client " + m.clientID + " sent video data");
+				System.out.println("Client " + m.clientID + " sent video data at "+m.dateTime);
 				System.out.println("Test num: " +((VideoMessage) m).testNum);
 				break;
 			case 3:
 				System.out.println("Client " + m.clientID + " sent audio data");
 				break;
 			case 4:
-				System.out.println("Client " + m.clientID + " has unregistered");
 				cm.stopThread(m.clientID);
-				break;
+				this.report.logout(m.clientID);
+            break;
 			default:
-				System.out.println("Message ID does not match a known type.");
+				this.report.reportError("ERROR TYPE: unknown message ID type\n");
 				return false;
 		}	
 		

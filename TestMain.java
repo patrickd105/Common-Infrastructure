@@ -6,8 +6,9 @@ public class TestMain {
 	
 		//Make the components
 		System.out.println("Creating necessary components");
-		MessageHandler mh = new MessageHandler();
-		ClientManager cm = new ClientManager(4444, 20, mh);
+      Report report = new Report();
+		MessageHandler mh = new MessageHandler(report);
+      ClientManager cm = new ClientManager(4444, 20, mh);
 		
 		//Set all the references
 		mh.setCM(cm);
