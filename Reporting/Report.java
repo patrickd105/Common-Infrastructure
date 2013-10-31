@@ -15,7 +15,6 @@ class  Report
 {
    //private member variables 
    private File logRecord;
-   private File errorRecord;
    private PrintWriter logRecordOutput;
    private PrintWriter errorRecordOutput;
 
@@ -26,8 +25,6 @@ class  Report
       {
       this.logRecord = new File("logRecords.txt");
       this.logRecordOutput = new PrintWriter(this.logRecord);
-      this.errorRecord = new File("errorRecords.txt");
-      this.errorRecordOutput = new PrintWriter(this.errorRecord);
       
       System.out.println(" -- Log files created -- ");
       
@@ -81,10 +78,6 @@ class  Report
 		
 	}									
    
-   public void reportError(String errorMessage)
-   {
-      this.errorRecordOutput.println(errorMessage);
-   }
    
    
    

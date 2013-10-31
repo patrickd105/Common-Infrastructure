@@ -33,7 +33,7 @@ public class ClientManager {
   	
   public void stopThread(int id) {
   	try{
-  		System.out.println("Attempting to stop thread " + id);
+  		ReportInterface.logInfo(3,"Attempting to stop thread " + id);
   		
   		clientList.get(id).close();
   		//threadList.get(id).sleep(300);
@@ -41,7 +41,7 @@ public class ClientManager {
 	}
 	catch(InterruptedException e)
 	{
-		System.out.println("stopThread error: "+ e);
+		ReportInterface.logError("stopThread error: "+ e);
 	}
   }
   
@@ -54,12 +54,12 @@ public class ClientManager {
       ServerSocket ioSock = new ServerSocket(port);
       Socket server;
 
-	  System.out.println("Accepting connections");
+	  ReportInterface.logInfo(1,"Accepting connections");
 	  
       while((currentClientNum < maxConnections) || (maxConnections == 0)){
       
         server = ioSock.accept();
-        System.out.println("Accepted a new client");
+        ReportInterface.logInfo(2,"Accepted a new client");
         Listener conn_c= new Listener(server, currentClientNum, handler);
         clientList.add(conn_c);
         Thread t = new Thread(conn_c);
@@ -68,7 +68,7 @@ public class ClientManager {
         currentClientNum++;
       }
     } catch (IOException ioe) {
-      System.out.println("IOException on socket listen: " + ioe);
+      ReportInterface.logError("IOException on socket listen: " + ioe);
       ioe.printStackTrace();
     }
   }

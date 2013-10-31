@@ -3,6 +3,7 @@ import java.io.*;
 import java.net.*;
 import java.security.*;
 import java.util.concurrent.locks.ReentrantLock;
+import Reporting.ReportInterface;
 
 class Listener implements Runnable {
 	public int clientID;
@@ -25,7 +26,7 @@ class Listener implements Runnable {
 		  objIn = new ObjectInputStream(this.server.getInputStream() );
 		  objOut = new ObjectOutputStream(this.server.getOutputStream());
 	  }
-	  catch(Exception e) {System.out.println("Couldn't obtain socket streams: "+e); }
+	  catch(Exception e) {ReportInterface.logError("Couldn't obtain socket streams: "+e); }
 			  
     }
 
@@ -40,7 +41,7 @@ class Listener implements Runnable {
 		try{
 			objOut.writeObject(m);
 		}
-		catch(Exception e){System.out.println("Sending error: "+e); }
+		catch(Exception e){ReportInterface.logError("Sending error: "+e); }
 	}
 
 	//The main listening loop
@@ -69,8 +70,8 @@ class Listener implements Runnable {
 						System.out.println("Message received: client = "+ m.clientID + " type = "+m.typeID);
 						ourMessageHandler.addMessage(m);
 					}
-					catch (ClassNotFoundException e) {System.out.println("Class error: "+e);}
-					catch (EOFException e) {System.out.println("Socket error, closed? "+e);}
+					catch (ClassNotFoundException e) {ReportInterface.logError("Class error: "+e);}
+					catch (EOFException e) {ReportInterface.logError("Socket error, closed? "+e);}
 					
 				}
 				//Unlock lock no matter what
@@ -81,7 +82,7 @@ class Listener implements Runnable {
 		System.out.println("Client #: "+clientID+" is shutting down");
         server.close();
       } catch (IOException ioe) {
-        System.out.println("IOException on socket listen: " + ioe);
+        ReportInterface.logError("IOException on socket listen: " + ioe);
         ioe.printStackTrace();
       }
     }
