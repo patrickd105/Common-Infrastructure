@@ -2,6 +2,7 @@ import java.io.*;
 import java.net.*;
 import java.security.*;
 import java.util.ArrayList;
+import Reporting.*;
 
 /**
  * Title:        Sample Server
@@ -33,6 +34,7 @@ public class ClientManager {
   public void stopThread(int id) {
   	try{
   		System.out.println("Attempting to stop thread " + id);
+  		
   		clientList.get(id).close();
   		//threadList.get(id).sleep(300);
 		threadList.get(id).join();

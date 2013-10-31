@@ -1,4 +1,5 @@
 import java.lang.Thread;
+import Reporting.ReportInterface;
 
 public class TestMain {
 
@@ -6,9 +7,10 @@ public class TestMain {
 	
 		//Make the components
 		System.out.println("Creating necessary components");
-      Report report = new Report();
-		MessageHandler mh = new MessageHandler(report);
-      ClientManager cm = new ClientManager(4444, 20, mh);
+		MessageHandler mh = new MessageHandler();
+      	ClientManager cm = new ClientManager(4444, 20, mh);
+      	ReportInterface.init();
+      	ReportInterface.setVerbosity(3);
 		
 		//Set all the references
 		mh.setCM(cm);

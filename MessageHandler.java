@@ -1,4 +1,5 @@
 import java.util.concurrent.ArrayBlockingQueue;
+import Reporting.ReportInterface;
 
 
 public class MessageHandler implements Runnable {
@@ -7,7 +8,6 @@ public class MessageHandler implements Runnable {
 	private static int messageCapacity = 200;
 	public int numMessages = 0;
 	private boolean cont;
-   private Report report;
 	
 	//We'll have to give it references to whichever parts it needs to communicate with
 	private ClientManager cm;
@@ -16,10 +16,9 @@ public class MessageHandler implements Runnable {
 	
 	
 	
-	public MessageHandler (Report r) {
+	public MessageHandler () {
 		messages = new ArrayBlockingQueue<Message> (messageCapacity);
 		cont = true;
-      report = r;
 		
 	}
 	
@@ -72,8 +71,8 @@ public class MessageHandler implements Runnable {
 	public boolean processMessage(Message m) {
 	
 		switch(m.typeID) {
-			case 1:
-				this.report.newLogin(m.clientID);
+			case 0:
+				ReportInterface.logInfo(2, "New client assigned id : " + m.clientID);
             break;
 			case 2:
 				System.out.println("Client " + m.clientID + " sent video data at "+m.dateTime);
@@ -84,10 +83,10 @@ public class MessageHandler implements Runnable {
 				break;
 			case 4:
 				cm.stopThread(m.clientID);
-				this.report.logout(m.clientID);
+				ReportInterface.logInfo(2, "Client logout: client "+m.clientID);
             break;
 			default:
-				this.report.reportError("ERROR TYPE: unknown message ID type\n");
+				ReportInterface.logError("Unknown message ID type received");
 				return false;
 		}	
 		
