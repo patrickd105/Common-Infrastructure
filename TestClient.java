@@ -1,6 +1,8 @@
 import java.io.*;
 import java.net.*;
 import java.util.Scanner;
+import Messages.*;
+import CommonInfrastructure.*;
 
 
 public class TestClient {

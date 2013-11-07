@@ -1,8 +1,11 @@
+package CommonInfrastructure;
+
 import java.io.*;
 import java.net.*;
 import java.security.*;
 import java.util.ArrayList;
 import Reporting.*;
+import Messages.*;
 
 /**
  * Title:        Sample Server
@@ -14,7 +17,7 @@ import Reporting.*;
  * @version 1.0
  */
 
-public class ClientManager {
+class ClientManager implements Runnable {
 
   private int port, maxConnections;
   private ArrayList<Listener> clientList;
@@ -46,6 +49,11 @@ public class ClientManager {
   }
   
   
+  //Run stub for the thread.
+  public void run() {
+  	acceptConnections();
+  }
+  
   // Listen for incoming connections and handle them
   public void acceptConnections() {
     int currentClientNum=0;
@@ -72,5 +80,10 @@ public class ClientManager {
       ioe.printStackTrace();
     }
   }
-
+  
+  
+  public Listener getListener(int id){
+  	return clientList.get(id);
+  }
+  
 }

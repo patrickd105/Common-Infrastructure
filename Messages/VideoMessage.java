@@ -1,4 +1,4 @@
-
+package Messages;
 
 public class VideoMessage extends Message {
 

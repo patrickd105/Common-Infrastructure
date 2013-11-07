@@ -1,8 +1,10 @@
+package CommonInfrastructure;
+
 import java.util.concurrent.ArrayBlockingQueue;
 import Reporting.ReportInterface;
+import Messages.*;
 
-
-public class MessageHandler implements Runnable {
+class MessageHandler implements Runnable {
 
 	ArrayBlockingQueue<Message> messages;
 	private static int messageCapacity = 200;

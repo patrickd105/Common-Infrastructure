@@ -1,4 +1,4 @@
-
+package Messages;
 
 public class DeregisterMessage extends Message {
 
