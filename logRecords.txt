@@ -1,1 +1,1 @@
-INFO - DEBUG - DEBUG - Client logout: client 0
+INFO - Client logout: client 0

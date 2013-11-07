@@ -84,7 +84,7 @@ public class MessageHandler implements Runnable {
 			case 4:
 				cm.stopThread(m.clientID);
 				ReportInterface.logInfo(2, "Client logout: client "+m.clientID);
-            break;
+                break;
 			default:
 				ReportInterface.logError("Unknown message ID type received");
 				return false;
