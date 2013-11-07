@@ -1,1 +1,5 @@
-INFO - DEBUG - DEBUG - Client logout: client 0
+IMPORTANT - Accepting connections
+INFO - Accepted a new client
+DEBUG - Attempting to stop thread 0
+*** ERROR *** : Socket error, closed? java.io.EOFException
+INFO - Client logout: client 0

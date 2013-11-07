@@ -9,7 +9,8 @@ public class ReportInterface {
 	private ReportInterface() {
 	}
 	
-	public static void init(){
+	private static void init(){
+		System.out.println("Made a report object");
 		logger = new Report();
 	}
 	
