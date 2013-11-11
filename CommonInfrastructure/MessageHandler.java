@@ -69,6 +69,11 @@ class MessageHandler implements Runnable {
 		}
 	}
 	
+	public void stop() {
+		cont = false;
+		messages.offer(new Message(99,99));
+	}
+	
 	//Big old switch statement where every type of message is dealt with
 	public boolean processMessage(Message m) {
 	
@@ -84,6 +89,7 @@ class MessageHandler implements Runnable {
 				System.out.println("Client " + m.clientID + " sent audio data");
 				break;
 			case 4:
+				cm.getListener(m.clientID).sendMessage(new ConfirmationMessage(m.clientID,4));
 				cm.stopThread(m.clientID);
 				ReportInterface.logInfo(2, "Client logout: client "+m.clientID);
                 break;

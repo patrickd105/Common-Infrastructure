@@ -25,18 +25,39 @@ class Listener implements Runnable {
       this.lock = new ReentrantLock();
       
       try{
-		  objIn = new ObjectInputStream(this.server.getInputStream() );
-		  objOut = new ObjectOutputStream(this.server.getOutputStream());
+      		objOut = new ObjectOutputStream(this.server.getOutputStream());
+      		objOut.flush();
+		  	objIn = new ObjectInputStream(this.server.getInputStream() );
+		  	
+		  	System.out.println("Got streams");
+		  	if(ClientInterface.isClient() )
+		  		register();
+		  	else{
+		  		Message initial = new RegistrationMessage(clientID);
+       			objOut.writeObject(initial);
+		  	}
+		  
 	  }
-	  catch(Exception e) {ReportInterface.logError("Couldn't obtain socket streams: "+e); }
+	  catch(Exception e) {
+	  	System.out.println("Couldn't get socket streams");
+	  	ReportInterface.logError("Couldn't obtain socket streams: "+e); }
 			  
     }
-
+    
+    private void register() {
+    
+    	try{
+			Message idAssignment = (Message) objIn.readObject();
+			clientID = ((RegistrationMessage) idAssignment).receivedID;
+			
+			System.out.println("Was given ID = "+clientID);
+		}
+		catch(Exception e) {System.out.println("Registration");}
+	}
 
 	public void close(){
 		System.out.println("Closing listener");
 		open = false;
-		sendMessage(new ConfirmationMessage(clientID,4));
 	}
 	
 	public void sendMessage(Message m) {
@@ -54,9 +75,7 @@ class Listener implements Runnable {
         // Set up the streams for reading/writing. You guys might review if it's been a while
         
         
-        Message initial = new RegistrationMessage(clientID);
         
-        objOut.writeObject(initial);
 		
 		while(open){
 

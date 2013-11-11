@@ -68,6 +68,7 @@ class ClientManager implements Runnable {
       
         server = ioSock.accept();
         ReportInterface.logInfo(2,"Accepted a new client");
+        System.out.println("Client Connected");
         Listener conn_c= new Listener(server, currentClientNum, handler);
         clientList.add(conn_c);
         Thread t = new Thread(conn_c);
