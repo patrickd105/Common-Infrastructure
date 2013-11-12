@@ -29,7 +29,7 @@ class Listener implements Runnable {
       		objOut.flush();
 		  	objIn = new ObjectInputStream(this.server.getInputStream() );
 		  	
-		  	System.out.println("Got streams");
+		  	//System.out.println("Got streams");
 		  	if(ClientInterface.isClient() )
 		  		register();
 		  	else{
@@ -39,7 +39,7 @@ class Listener implements Runnable {
 		  
 	  }
 	  catch(Exception e) {
-	  	System.out.println("Couldn't get socket streams");
+	  	//System.out.println("Couldn't get socket streams");
 	  	ReportInterface.logError("Couldn't obtain socket streams: "+e); }
 			  
     }
@@ -50,13 +50,13 @@ class Listener implements Runnable {
 			Message idAssignment = (Message) objIn.readObject();
 			clientID = ((RegistrationMessage) idAssignment).receivedID;
 			
-			System.out.println("Was given ID = "+clientID);
+			ReportingInterface.logInfo("Was given ID = "+clientID);
 		}
-		catch(Exception e) {System.out.println("Registration");}
+		catch(Exception e) {ReportingInterface.logError("Problem during registration");}
 	}
 
 	public void close(){
-		System.out.println("Closing listener");
+		ReportInterface.logInfo("Closing listener");
 		open = false;
 	}
 	
@@ -88,7 +88,7 @@ class Listener implements Runnable {
 					//try to read a message, then pass it along
 					try{
 						m = (Message) objIn.readObject();
-						System.out.println("Message received: client = "+ m.clientID + " type = "+m.typeID);
+						ReportInterface.logInfo("Message received: client = "+ m.clientID + " type = "+m.typeID);
 						ourMessageHandler.addMessage(m);
 					}
 					catch (ClassNotFoundException e) {ReportInterface.logError("Class error: "+e);}
@@ -100,7 +100,7 @@ class Listener implements Runnable {
 			}
 		}
 		
-		System.out.println("Client #: "+clientID+" is shutting down");
+		ReportInterface.logInfo("Client #: "+clientID+" is shutting down");
         server.close();
       } catch (IOException ioe) {
         ReportInterface.logError("IOException on socket listen: " + ioe);
