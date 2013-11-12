@@ -1,16 +1,12 @@
 package Reporting;
 
-//EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE//
-//                                                                               //
-// Class Name: Report                                                     //
-// Functinality: keep track of user logins, logouts and errors in output files   //
-// Version: 1.0                                                                  //
-// Created: 10/24/2013                                                           //
-//                                                                               //
-//EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE//
-
 import java.io.*;
 
+/**
+ *Report
+ *The actual Report logger
+ *@author Common Infrastructure
+ */
 class  Report
 {
    //private member variables 
@@ -18,7 +14,9 @@ class  Report
    private PrintWriter logRecordOutput;
    private PrintWriter errorRecordOutput;
 
-   //constructor instantiates the files and PrintWriter objects
+   /**
+    *constructor instantiates the files and PrintWriter objects
+    */
    public Report()
    {
       try
@@ -34,18 +32,29 @@ class  Report
       }
    }
 
+    /**
+     *logs in a client to record where the report came from
+     *@param ID: the clientID
+     */
    public void newLogin(int ID)
    {
       this.logRecordOutput.println("LOGIN client with ID = " + ID + "\n");
       this.logRecordOutput.flush();
    }
+    /**
+     *logs out a client
+     *@param ID: the clientID to log out
+     */
    public void logout(int ID)
    {
       this.logRecordOutput.println("LOGOUT client with ID = " + ID + "\n");
       this.logRecordOutput.flush();
    }
    
-   
+   /**
+    *the method to log a method
+    *@param level: priority of the message s: the message isError: whether or not it's an error
+    */
    public void logMessage(int level, String s, boolean isError)
 	{
 		if(!isError)
@@ -80,7 +89,9 @@ class  Report
    
    
    
-   
+   /**
+    *Finalize the report
+    */
    protected void finalize()
    {
       this.errorRecordOutput.close();
