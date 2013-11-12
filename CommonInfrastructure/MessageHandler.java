@@ -4,6 +4,11 @@ import java.util.concurrent.ArrayBlockingQueue;
 import Reporting.ReportInterface;
 import Messages.*;
 
+/**
+ *MessageHandler
+ *Handles and appropriately responds to Messages instances it is passed
+ *@author Common Infrastructure
+ */
 class MessageHandler implements Runnable {
 
 	ArrayBlockingQueue<Message> messages;
@@ -17,25 +22,36 @@ class MessageHandler implements Runnable {
 	
 	
 	
-	
+	/**
+     *Constructor that initializes the global variables
+     */
 	public MessageHandler () {
 		messages = new ArrayBlockingQueue<Message> (messageCapacity);
 		cont = true;
 		
 	}
 	
+    /**
+     *Sets the ClientManager
+     */
 	public void setCM(ClientManager cm){
 		this.cm = cm;
 	}
 	
 	
-	//The part that actually needs to just be in a thread is the loop that checks for messages
+	/**
+     *The part that actually needs to just be in a thread is the loop that checks for messages
+     */
 	public void run() {
 		this.acceptMessages();
 		
 	}
 	
-	//Stick a new message in the queue to be handled.
+	/**
+     *Stick a new message in the queue to be handled.
+     *@param m: the Message to be added
+     *@return true if message was added successfully, false if not
+     */
 	public boolean addMessage( Message m) {
 
 		//Might eventually change this to a blocking add
@@ -53,7 +69,10 @@ class MessageHandler implements Runnable {
 		return false;
 	}
 	
-	//Loops (for now permanently, can make it stop later) constantly taking messages and then handling them
+	/**
+     *Loops (for now permanently, can make it stop later) constantly taking messages 
+     *and then handling them
+     */
 	public void acceptMessages ( ) {
 		
 		Message current = null;
@@ -68,12 +87,18 @@ class MessageHandler implements Runnable {
 		}
 	}
 	
+    /**
+     *Stops the MessageHandler from accepting messages
+     */
 	public void stop() {
 		cont = false;
 		messages.offer(new Message(99,99));
 	}
 	
-	//Big old switch statement where every type of message is dealt with
+	/**
+     *Big old switch statement where every type of message is dealt with
+     *@param m: the Message instance to be handled
+     */
 	public boolean processMessage(Message m) {
 	
 		switch(m.typeID) {
