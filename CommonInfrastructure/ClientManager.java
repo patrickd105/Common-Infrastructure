@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import Reporting.*;
 import Messages.*;
 
-/**
+/**SOME CODE TAKEN FROM THIS SOURCE
  * Title:        Sample Server
  * Description:  This utility will accept input from a socket, posting back to the socket before closing the link.
  * It is intended as a template for coders to base servers on. Please report bugs to brad at kieser.net
@@ -17,6 +17,11 @@ import Messages.*;
  * @version 1.0
  */
 
+/**
+ *ClientManager
+ *Manages the clients that are connected to the server
+ *@author Common Infrastructure
+ */
 class ClientManager implements Runnable {
 
   private int port, maxConnections;
@@ -25,7 +30,10 @@ class ClientManager implements Runnable {
   private MessageHandler handler;
   //TODO: Need some sort of structure for storing the threads
   
-  //Constructor
+  /**
+   *Constructor that initializes the global variables
+   *@param p: port number. mc: max connections. mh: the MessageHandler
+   */
   public ClientManager(int p, int mc, MessageHandler mh) {
   	port = p;
   	maxConnections = mc;
@@ -34,6 +42,10 @@ class ClientManager implements Runnable {
   	handler = mh;
   }
   	
+    /**
+     *Stops a specified client thread
+     *@param id: the id of the client thread to be stopped
+     */
   public void stopThread(int id) {
   	try{
   		ReportInterface.logInfo(3,"Attempting to stop thread " + id);
@@ -49,12 +61,16 @@ class ClientManager implements Runnable {
   }
   
   
-  //Run stub for the thread.
+  /**
+   *Run stub for the thread
+   */
   public void run() {
   	acceptConnections();
   }
   
-  // Listen for incoming connections and handle them
+  /**
+   *Listens for incoming connections and handle them
+   */
   public void acceptConnections() {
     int currentClientNum=0;
 
@@ -82,7 +98,11 @@ class ClientManager implements Runnable {
     }
   }
   
-  
+  /**
+   *Returns a Listener of the specified id
+   *@param id: the id of the Listener to be returned
+   *@return the Listener of the specified id
+   */
   public Listener getListener(int id){
   	return clientList.get(id);
   }
