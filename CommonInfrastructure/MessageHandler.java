@@ -57,7 +57,6 @@ class MessageHandler implements Runnable {
 	public void acceptMessages ( ) {
 		
 		Message current = null;
-		System.out.println("AcceptingMessages");
 		while (cont) {
 			try{
 				current = messages.take();
@@ -94,7 +93,7 @@ class MessageHandler implements Runnable {
 				ReportInterface.logInfo(2, "Client logout: client "+m.clientID);
                 break;
 			default:
-				ReportInterface.logError("Unknown message ID type received");
+				ReportInterface.logError("Unknown message ID type received. Type: " + m.typeID);
 				return false;
 		}	
 		
