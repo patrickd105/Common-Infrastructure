@@ -42,18 +42,18 @@ public class ClientInterface {
         if(!isInitialized){
             try{
             isInitialized = true;
-            System.out.println("Client init");
+            ReportInterface.logInfo(3,"Client starting up");
             //create the socket, initialize ID
             mainSocket = new Socket("127.0.0.1" , 4444);
             currentID = 0;
             ReportInterface.setVerbosity(3);
             
             //connect with server to get Client ID assigned
-            System.out.println("after socket is avail" + ((mainSocket.isBound() ) ? " yes" : " no"));
+            //System.out.println("after socket is avail" + ((mainSocket.isBound() ) ? " yes" : " no"));
             
             
             //Make the components
-            System.out.println("Creating necessary components");
+            //System.out.println("Creating necessary components");
             mh = new MessageHandler();
             mainListener = new Listener(mainSocket, 0, mh);
             currentID = mainListener.clientID;
@@ -67,7 +67,7 @@ public class ClientInterface {
             listenerThread.start();
             }
             catch (IOException e){
-                System.out.println("IOException: " + e);
+                ReportInterface.logError("Error in ClientInterface initialization: " + e);
             }
             
         }
@@ -80,16 +80,12 @@ public class ClientInterface {
 		try{
 		
 			mainListener.close();
-			System.out.println("Just closed listener");
 			listenerThread.join();
-			System.out.println("Joined listener");
 			mh.stop();
-			System.out.println("Stopped mh");
 			mhThread.join();
-			System.out.println("Everything stopped");
+			ReportInterface.logInfo(2,"Client successfully shut down");
 		}
 		catch(Exception e) {
-			System.out.println("Error in client shutdown: "+ e);
 			ReportInterface.logError("Error in client shutdown: "+ e);
 		 }
 
