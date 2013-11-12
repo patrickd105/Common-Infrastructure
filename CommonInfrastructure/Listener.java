@@ -7,6 +7,11 @@ import java.util.concurrent.locks.ReentrantLock;
 import Reporting.ReportInterface;
 import Messages.*;
 
+/**
+ *Listener
+ *Listens for incoming messages and passes them off to a MessageHandler
+ *@author Common Infrastructure
+ */
 class Listener implements Runnable {
 	public int clientID;
     private Socket server;
@@ -17,6 +22,10 @@ class Listener implements Runnable {
     ObjectInputStream objIn;
     ObjectOutputStream objOut;
 
+    /**
+     *Constructor to initialize the global variables
+     *@param server: the socket to listen on. id: the id of the client. mh: the MessageHandler
+     */
     public Listener(Socket server, int id, MessageHandler mh) {
       this.server=server;
       this.clientID = id;
@@ -44,6 +53,9 @@ class Listener implements Runnable {
 			  
     }
     
+    /**
+     *Registers the clientID
+     */
     private void register() {
     
     	try{
@@ -55,11 +67,17 @@ class Listener implements Runnable {
 		catch(Exception e) {ReportingInterface.logError("Problem during registration");}
 	}
 
+    /**
+     *Closes the listener
+     */
 	public void close(){
 		ReportInterface.logInfo("Closing listener");
 		open = false;
 	}
 	
+    /**
+     *Sends a Message to the associated recipient
+     */
 	public void sendMessage(Message m) {
 		try{
 			objOut.writeObject(m);
@@ -67,7 +85,9 @@ class Listener implements Runnable {
 		catch(Exception e){ReportInterface.logError("Sending error: "+e); }
 	}
 
-	//The main listening loop
+	/**
+     *The main listening loop
+     */
     public void run () {
 
 
