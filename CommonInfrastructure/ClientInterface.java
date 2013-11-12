@@ -6,6 +6,12 @@ import java.util.Scanner;
 import Reporting.*;
 import Messages.*;
 
+/**
+ *ClientInterface
+ *The interface for the client side where one can send a Message to the server
+ *using the method sendMessage.
+ *@author Common Infrastructure
+ */
 public class ClientInterface {
     
     private static Socket mainSocket;
@@ -20,14 +26,18 @@ public class ClientInterface {
         
     }
 
+    /**
+     *Returns whether the ClientInterface has been initialized or not
+     *@return boolean: true if initialized, false if not
+     */
 	public static boolean isClient(){
 		return isInitialized;
 	}
 	
-	
+	/**
+     *Initializes the ClientInterface
+     */
 	public static void init() throws Exception {
-        //set initialized to true
-        
         
         if(!isInitialized){
             try{
@@ -63,6 +73,9 @@ public class ClientInterface {
         }
 	}
 	
+    /**
+     *Shuts down the ClientInterface
+     */
 	public static void shutdown(){
 		try{
 		
@@ -82,7 +95,9 @@ public class ClientInterface {
 
 	}
     
-    //this method accepts a message and sends it to the server
+    /**
+     *Accepts a message and sends it to the server
+     */
     public static void sendMessage(Message messageToSend){
 			messageToSend.clientID = currentID;
 			mainListener.sendMessage(messageToSend);
