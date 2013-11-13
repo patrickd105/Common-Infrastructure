@@ -2,7 +2,7 @@ package Messages;
 
 /**
  * ConfirmationMessage
- * Program extends Messages class -- a ConfirmationMessage is the message confirming that the client has connected to the server
+ * Program extends Messages class -- a ConfirmationMessage is the message confirming any message received (such as when the client disconnects)
  * @author Common Infrastructure
  */
 public class ConfirmationMessage extends Message {
