@@ -4,6 +4,11 @@ import java.lang.Thread;
 import Reporting.ReportInterface;
 import Messages.*;
 
+/**
+ *ServerInterface
+ *The server interface to send messages to the clients
+ *@author Common Infrastructure
+ */
 public class ServerInterface {
 
 	private static MessageHandler mh;
@@ -11,10 +16,16 @@ public class ServerInterface {
 	private static boolean isInitialized;
 
 
+    /**
+     *The constructor. It's empty.
+     */
 	private ServerInterface() {
 	
 	}
 	
+    /**
+     *Initializes the ServerInterface's global variables
+     */
 	public static void init() {
 		
 		if(!isInitialized){
@@ -37,6 +48,10 @@ public class ServerInterface {
 		}	
 	}	
 	
+    /**
+     *Sends a Message to the client
+     *@param m: the message to send. clientID: the intended recipient client
+     */
 	public static void sendMessage(Message m, int clientID) {
 		
 		Listener destination = cm.getListener(clientID);
